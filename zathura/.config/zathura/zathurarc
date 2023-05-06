@@ -1,0 +1,7 @@
+map i recolor
+set recolor true
+set recolor-keephue true
+set default-bg "#141022"
+set recolor-lightcolor "#141022"
+set adjust-open "width"
+set selection-clipboard clipboard

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+function run {
+  if ! pgrep -f $1 ;
+  then
+    $@&
+  fi
+}
+run onedriver /home/yungj/Files
+run /usr/bin/emacs --daemon
+# run sxhkd
+run nm-applet
+# run parcellite # clipboard
+# run clipmenuda
+# run volct # per app volume control
+# run remmina -i # remote access 
+sleep 1
+killall xdg-desktop-portal-hyprland
+killall xdg-desktop-portal-wlr
+killall xdg-desktop-portal
+/usr/libexec/xdg-desktop-portal-hyprland &
+sleep 2
+/usr/libexec/xdg-desktop-portal &
