@@ -216,6 +216,8 @@ return {
           astrodark = {
             modify_hl_groups = function(hl, c)
               -- new i guess
+              -- hl.QuickScopePrimary = { fg = "#afff5f" }
+              -- hl.QuickScopeSecondary = { fg = "#5fffff" }
               -- base
               hl.Normal = { fg = c.text, bg = c.base }
               hl.NormalNC = { fg = c.text, bg = c.mantle }

@@ -1,6 +1,5 @@
 local config = {
-  colorschem = "astrodark",
-  polish     = function()
+  polish      = function()
     -- zettel nerveux
     --   require 'nerveux'.setup{
     --     --- path to neuron executable (default: neuron in PATH)
@@ -80,6 +79,16 @@ local config = {
     -- })
     -- local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
     -- parser_configs.markdown = { install_info = { url = "https://github.com/MDeiml/tree-sitter-markdown", files = { "src/parser.c", "src/scanner.cc" }, }, filetype = "markdown", }
+    vim.g.neovide_scale_factor = 0.5
+    local change_scale_factor = function(delta)
+      vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+    end
+    vim.keymap.set("n", "<C-=>", function()
+      change_scale_factor(1.25)
+    end)
+    vim.keymap.set("n", "<C-->", function()
+      change_scale_factor(1 / 1.25)
+    end)
     local opts = { noremap = true, silent = true }
     local map = vim.api.nvim_set_keymap
     local set = vim.opt
@@ -110,12 +119,55 @@ local config = {
     map("n", "+", "<c-a>", { desc = "Increment number" })
     map("x", "+", "g<c-a>", { desc = "Increment number" })
     map("x", "-", "g<c-x>", { desc = "Descrement number" })
+    local opts = { noremap = true, silent = false }
+
+    -- Create a new note after asking for its title.
+    vim.api.nvim_set_keymap("n", "<leader>kn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", opts)
+
+    -- Open notes.
+    vim.api.nvim_set_keymap("n", "<leader>ko", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", opts)
+    -- Open notes associated with the selected tags.
+    vim.api.nvim_set_keymap("n", "<leader>kt", "<Cmd>ZkTags<CR>", opts)
+
+    -- Search for the notes matching a given query.
+    vim.api.nvim_set_keymap("n", "<leader>kf",
+      "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>", opts)
+    -- Search for the notes matching the current visual selection.
+    vim.api.nvim_set_keymap("v", "<leader>kf", ":'<,'>ZkMatch<CR>", opts)
     -- map("n", "<CR>", "<cmd>lua require'nerveux'.open_zettel_under_cursor()<CR>", opts)
     -- map("n", "<leader>gz",  "<cmd>lua require'nerveux'.grep_zettels()<CR>", opts)
     -- map("n", "<leader>gn",  "<cmd>lua require'nerveux'.new_zettel()<CR>", opts)
     -- vim.cmd [[ let g:sneak#label = 1
     -- let g:sneak#use_ic_scs = 1
     -- let g:sneak#s_next = 1]]
+    -- if require("zk.util").notebook_root(vim.fn.expand('%:p')) ~= nil then
+    --   local function map(...) vim.api.nvim_buf_set_keymap(0, ...) end
+    --
+    --   -- Open the link under the caret.
+    --   map("n", "<CR>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    --
+    --   -- Create a new note after asking for its title.
+    --   -- This overrides the global `<leader>zn` mapping to create the note in the same directory as the current buffer.
+    --   map("n", "<leader>kn", "<Cmd>ZkNew { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", opts)
+    --   -- Create a new note in the same directory as the current buffer, using the current selection for title.
+    --   map("v", "<leader>knt", ":'<,'>ZkNewFromTitleSelection { dir = vim.fn.expand('%:p:h') }<CR>", opts)
+    --   -- Create a new note in the same directory as the current buffer, using the current selection for note content and asking for its title.
+    --   map("v", "<leader>knc",
+    --     ":'<,'>ZkNewFromContentSelection { dir = vim.fn.expand('%:p:h'), title = vim.fn.input('Title: ') }<CR>", opts)
+    --
+    --   -- Open notes linking to the current buffer.
+    --   map("n", "<leader>kb", "<Cmd>ZkBacklinks<CR>", opts)
+    --   -- Alternative for backlinks using pure LSP and showing the source context.
+    --   --map('n', '<leader>zb', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+    --   -- Open notes linked by the current buffer.
+    --   map("n", "<leader>kl", "<Cmd>ZkLinks<CR>", opts)
+    --
+    --   -- Preview a linked note.
+    --   map("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    --   -- Open the code actions for a visual selection.
+    --   map("v", "<leader>ka", ":'<,'>lua vim.lsp.buf.range_code_action()<CR>", opts)
+    -- end
+    vim.cmd("let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']")
     vim.cmd [[set guifont=JetBrainsMono\ Nerd\ Font\ Mono
      let g:neovide_transparency=1
      let g:neovide_cursor_vfx_mode = "wireframe"]]
@@ -128,12 +180,19 @@ highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=und
                         \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
                         \ 'fold': { 'enable': 1 } }
                         ]]
+    vim.cmd [[
+  augroup qs_colors
+    autocmd!
+    autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+    autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+  augroup END]]
   end,
-  options    = {
+  options     = {
     opt = {
       showtabline = 0
     },
   },
+  colorscheme = "astrodark",
 }
 
 return config

@@ -225,6 +225,7 @@ export EDITOR="nvim"              # $EDITOR use Emacs in terminal
 # export EDITOR="emacsclient -t -a ''"              # $EDITOR use Emacs in terminal
 # export VISUAL="emacsclient -c -a emacs"           # $VISUAL use Emacs in GUI mode
 export VISUAL="goneovim"           # $VISUAL use Emacs in GUI mode
+export ZK_NOTEBOOK_DIR="~/Resources/notes/yungjbrain/"
 
 ### SET MANPAGER
 ### Uncomment only one of these!

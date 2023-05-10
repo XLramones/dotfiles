@@ -166,7 +166,36 @@ return {
     end,
   },
   { "godlygeek/tabular" },
-  { "unblevable/quick-scope" },
+  {
+    "mickael-menu/zk-nvim",
+    config = function()
+      require("zk").setup({
+        picker = "telescope",
+        -- `config` is passed to `vim.lsp.start_client(config)`
+        config = {
+          cmd = { "zk", "lsp" },
+          name = "zk",
+          -- on_attach = ...
+          -- etc, see `:h vim.lsp.start_client()`
+        },
+        -- automatically attach buffers in a zk notebook that match the given filetypes
+        auto_attach = {
+          enabled = true,
+          filetypes = { "markdown" },
+        },
+      })
+      local opts = { noremap = true, silent = true }
+      local map = vim.api.nvim_set_keymap
+      map("n", "<CR>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    end,
+    ft = "markdown"
+  },
+  {
+    "unblevable/quick-scope",
+    -- config = function()
+    --   require('quick-scope').setup()
+    -- end
+  },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "jvgrootveld/telescope-zoxide", },
