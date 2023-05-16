@@ -188,7 +188,8 @@ return {
       local map = vim.api.nvim_set_keymap
       map("n", "<CR>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
     end,
-    ft = "markdown"
+    -- ft = "markdown",
+    lazy = false,
   },
   {
     "unblevable/quick-scope",
