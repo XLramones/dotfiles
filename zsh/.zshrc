@@ -10,7 +10,7 @@
 
 source ~/Git/zsh-snap/znap.zsh  # Start Znap
 
-source <(/usr/bin/starship init zsh --print-full-init)
+source <(/home/yungj/.cargo/bin/starship init zsh --print-full-init)
 #znap eval starship 'starship init zsh'
 #znap prompt
 # `znap prompt` makes your prompt visible in just 15-40ms!
@@ -181,6 +181,9 @@ alias o="xdg-open"
 alias homespace="du -hs --exclude=Files ~/"
 alias soundout="pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:codec-output+input:codec-input"
 alias soundmac="pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:builtin-speaker+input:builtin-mic"
+
+# loadshedding claremont 
+alias loadshed="curl https://www.ourpower.co.za/areas/city-of-cape-town/claremont -s |  rg  'Power next off \d\d:\d\d'  -o"
 
 alias sioyek="Sioyek-x86_64.AppImage"
 # alias for java testing
